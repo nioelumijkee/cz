@@ -1,0 +1,78 @@
+#N canvas 592 81 651 602 12;
+#X obj 71 237 cz~;
+#X obj 70 52 nbx 5 14 -1e+37 1e+37 0 1 empty empty m 58 8 0 10 -262144
+-1 -1 38 256;
+#X obj 70 68 mtof;
+#X obj 70 89 nbx 5 14 -1e+37 1e+37 0 0 empty empty freq 58 8 0 10 -262144
+-1 -1 73.4162 256;
+#X msg 70 105 \$1 25;
+#X obj 70 126 line~;
+#X obj 95 327 nbx 5 14 -1e+37 1e+37 0 1 empty empty level 58 8 0 10
+-262144 -1 -1 4 256;
+#X obj 95 346 * 0.01;
+#X obj 70 369 *~ 0;
+#X obj 70 397 dac~;
+#X obj 250 407 vradio 15 1 1 8 empty empty empty 0 -8 0 10 -262144
+-1 -1 0;
+#X text 264 406 _saw;
+#X text 264 421 _square;
+#X text 264 436 _pulse;
+#X text 264 451 _sinepulse;
+#X text 264 466 _halfpulse;
+#X text 264 481 _res-saw;
+#X text 264 496 _res-triangle;
+#X text 264 511 _res-trapezoid;
+#X msg 250 532 type1 \$1;
+#X obj 250 556 s \$0-to;
+#X obj 400 407 vradio 15 1 1 8 empty empty empty 0 -8 0 10 -262144
+-1 -1 0;
+#X text 414 406 _saw;
+#X text 414 421 _square;
+#X text 414 436 _pulse;
+#X text 414 451 _sinepulse;
+#X text 414 466 _halfpulse;
+#X text 414 481 _res-saw;
+#X text 414 496 _res-triangle;
+#X text 414 511 _res-trapezoid;
+#X obj 400 556 s \$0-to;
+#X msg 400 532 type2 \$1;
+#X msg 88 193 \$1 25;
+#X obj 88 214 line~;
+#X obj 88 156 nbx 5 14 -1e+37 1e+37 0 0 empty empty wave 58 8 0 10
+-262144 -1 -1 4 256;
+#X obj 88 172 * 0.01;
+#X obj 71 261 s~ \$0-gen;
+#X obj 69 295 r~ \$0-gen;
+#X obj 232 173 abs_scope4;
+#A saved 1 1 1 1 0 0 13 1 0 1 100 0 1 100 0 0 0 0 0 0 0;
+#X obj 14 205 r \$0-to;
+#X obj 231 143 phasor~;
+#X obj 332 144 r~ \$0-gen;
+#X obj -6 161 s~ \$0-freq;
+#X obj 231 92 r~ \$0-freq;
+#X obj 231 116 /~ 2;
+#X connect 0 0 36 0;
+#X connect 1 0 2 0;
+#X connect 2 0 3 0;
+#X connect 3 0 4 0;
+#X connect 4 0 5 0;
+#X connect 5 0 0 0;
+#X connect 5 0 42 0;
+#X connect 6 0 7 0;
+#X connect 7 0 8 1;
+#X connect 8 0 9 0;
+#X connect 8 0 9 1;
+#X connect 10 0 19 0;
+#X connect 19 0 20 0;
+#X connect 21 0 31 0;
+#X connect 31 0 30 0;
+#X connect 32 0 33 0;
+#X connect 33 0 0 1;
+#X connect 34 0 35 0;
+#X connect 35 0 32 0;
+#X connect 37 0 8 0;
+#X connect 39 0 0 0;
+#X connect 40 0 38 0;
+#X connect 41 0 38 1;
+#X connect 43 0 44 0;
+#X connect 44 0 40 0;
