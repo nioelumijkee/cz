@@ -3,7 +3,7 @@
 
 #------------------------------------------------------------------------------#
 LIBRARY_NAME = cz~
-LIBRARY_AUTHOR = ""
+LIBRARY_AUTHOR = "MikeMoreno, Nioelumijke"
 LIBRARY_DESCRIPTION = "Emulates the oscillators from Casio CZ series"
 LIBRARY_LICENSE = "GPL v3"
 LIBRARY_VERSION = "0.1"
