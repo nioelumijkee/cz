@@ -1,4 +1,3 @@
 # cz~
-### Emulates the oscillators from Casio CZ series.
-From https://github.com/MikeMorenoDSP/pd-mkmr
-
+### Pure Data object emulates the oscillators from Casio CZ series.
+From [github.com/MikeMorenoDSP](https://github.com/MikeMorenoDSP/pd-mkmr "reference")  
