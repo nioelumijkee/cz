@@ -52,7 +52,7 @@ ALL_LIBS =
 #------------------------------------------------------------------------------#
 
 # these can be set from outside without (usually) breaking the build
-CFLAGS = -Wall -W -g
+CFLAGS = -Wall -W
 LDFLAGS =
 LIBS =
 
