@@ -1,9 +1,9 @@
 #N canvas 334 181 897 492 12;
 #X obj 17 117 nbx 5 14 -1e+37 1e+37 0 1 empty empty m 58 8 0 10 -262144
--1 -1 51.9 256;
+-1 -1 54.9 256;
 #X obj 17 133 mtof;
 #X obj 17 154 nbx 5 14 -1e+37 1e+37 0 0 empty empty freq 58 8 0 10
--262144 -1 -1 163.865 256;
+-262144 -1 -1 194.869 256;
 #X msg 17 170 \$1 25;
 #X obj 17 191 line~;
 #X obj 343 151 nbx 5 14 -1e+37 1e+37 0 1 empty empty level 58 8 0 10
@@ -12,7 +12,7 @@
 #X obj 318 188 *~ 0;
 #X obj 318 216 dac~;
 #X obj 464 112 vradio 15 1 1 8 empty empty empty 0 -8 0 10 -262144
--1 -1 1;
+-1 -1 0;
 #X text 478 111 _saw;
 #X text 478 126 _square;
 #X text 478 141 _pulse;
@@ -24,7 +24,7 @@
 #X msg 464 236 type1 \$1;
 #X obj 464 260 s \$0-to;
 #X obj 614 112 vradio 15 1 1 8 empty empty empty 0 -8 0 10 -262144
--1 -1 4;
+-1 -1 0;
 #X text 628 111 _saw;
 #X text 628 126 _square;
 #X text 628 141 _pulse;
@@ -38,7 +38,7 @@
 #X msg 120 169 \$1 25;
 #X obj 120 190 line~;
 #X obj 120 132 nbx 5 14 -1e+37 1e+37 0 1 empty empty wave 58 8 0 10
--262144 -1 -1 59 256;
+-262144 -1 -1 -5 256;
 #X obj 120 148 * 0.01;
 #X obj 16 215 s~ \$0-freq;
 #X obj 789 218 cz~;
@@ -64,6 +64,7 @@
 #X obj 230 404 metro 50;
 #X text 241 33 Reference: https://github.com/MikeMorenoDSP/pd-mkmr
 ;
+#X text 413 59 Author: Mike Moser Booth;
 #X connect 0 0 1 0;
 #X connect 1 0 2 0;
 #X connect 2 0 3 0;
