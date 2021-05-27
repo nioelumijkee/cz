@@ -2,6 +2,6 @@
 #X text 10 10 META this is prototype of a libdir meta file;
 #X text 10 30 NAME cz~ ;
 #X text 10 50 AUTHOR Mike Moser Booth / MikeMoreno / Nioelumijke ;
-#X text 10 70 DESCRIPTION Emulates Casio CZ ;
+#X text 10 70 DESCRIPTION Emulates oscillator Casio CZ series ;
 #X text 10 90 LICENSE Standard Improved BSD License ;
 #X text 10 110 VERSION 0.1 ;

@@ -13,26 +13,26 @@ enum
   T_RES_TRAPEZOID
 };
 
-#define AC_PI  3.141592653589793
+#define AC_PI  3.141592653589792
 #define AC_2PI 6.283185307179586
 #define SSIZE 2048
 #define SSIZE_1 2047
 #define SH 512
 
-#define AF_SINT(F, B_I, OUT)					\
-  (F) = ((F) * SSIZE_1);					\
-  if ((F) > SSIZE_1)						\
-    (F) -= SSIZE_1;						\
-  (B_I) = (F);							\
-  (F) = (F) - (B_I);						\
+#define AF_SINT(F, B_I, OUT)                                    \
+  (F) = ((F) * SSIZE_1);                                        \
+  if ((F) > SSIZE_1)                                            \
+    (F) -= SSIZE_1;                                             \
+  (B_I) = (F);                                                  \
+  (F) = (F) - (B_I);                                            \
   (OUT) = (sint[(B_I)+1] - sint[(B_I)]) * (F) + sint[(B_I)];
 
-#define AF_COST(F, B_I, OUT)						\
-  (F) = ((F) * SSIZE_1) + SH;						\
-  if ((F) > SSIZE_1)							\
-    (F) -= SSIZE_1;							\
-  (B_I) = (F);								\
-  (F) = (F) - (B_I);							\
+#define AF_COST(F, B_I, OUT)                                    \
+  (F) = ((F) * SSIZE_1) + SH;                                   \
+  if ((F) > SSIZE_1)                                            \
+    (F) -= SSIZE_1;                                             \
+  (B_I) = (F);                                                  \
+  (F) = (F) - (B_I);                                            \
   (OUT) = (sint[(B_I)+1] - sint[(B_I)]) * (F) + sint[(B_I)];
 
 static t_class *cz_class;
