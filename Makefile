@@ -7,14 +7,8 @@ LIBRARY_AUTHOR = Mike Moser Booth / MikeMoreno / Nioelumijke
 LIBRARY_DESCRIPTION = Emulates oscillator Casio CZ series
 LIBRARY_LICENSE = Standard Improved BSD License
 LIBRARY_VERSION = 0.1
+SOURCES = cz~.c
 META_FILE = $(LIBRARY_NAME)-meta.pd
-
-#------------------------------------------------------------------------------#
-SOURCES_DIR = src
-SOURCES = \
-cz~.c
-EXTRA_DIST = README.md LICENSE.txt
-HELPPATCHES = $(SOURCES:.c=-help.pd) $(PDOBJECTS:.pd=-help.pd)
 
 #------------------------------------------------------------------------------#
 UNAME := $(shell uname -s)
@@ -36,48 +30,19 @@ ifeq ($(UNAME),Linux)
 endif
 
 #------------------------------------------------------------------------------#
-ifeq (CYGWIN,$(findstring CYGWIN,$(UNAME)))
-  CPU := $(shell uname -m)
-  EXTENSION = dll
-  SHARED_EXTENSION = dll
-  OS = cygwin
-  PD_PATH ?= $(shell cygpath $$PROGRAMFILES)/pd
-  CFLAGS = -O6 -funroll-loops -fomit-frame-pointer
-  LDFLAGS = -rdynamic -shared -L"$(PD_PATH)/src" -L"$(PD_PATH)/bin"
-  LIBS_cygwin =
-  LIBS = -lc -lpd $(LIBS_cygwin)
-endif
-
-#------------------------------------------------------------------------------#
-ifeq (MINGW,$(findstring MINGW,$(UNAME)))
-  CPU := $(shell uname -m)
-  EXTENSION = dll
-  SHARED_EXTENSION = dll
-  OS = windows
-  PD_PATH ?= $(shell cd "$$PROGRAMFILES/pd" && pwd)
-  CC=gcc
-  CFLAGS = -O3 -funroll-loops -fomit-frame-pointer
-  CFLAGS += -mms-bitfields
-  LDFLAGS = -s -shared -Wl,--enable-auto-import
-  LIBS_windows =
-  LIBS = -L"$(PD_PATH)/src" -L"$(PD_PATH)/bin" -L"$(PD_PATH)/obj" \
-	-lpd -lwsock32 -lkernel32 -luser32 -lgdi32 -liberty $(LIBS_windows)
-endif
-
-#------------------------------------------------------------------------------#
 all: $(SOURCES:.c=.$(EXTENSION))
 	@echo "done."
 
-%.o: $(SOURCES_DIR)/%.c
-	$(CC) $(CFLAGS) -o "$(SOURCES_DIR)/$*.o" -c "$(SOURCES_DIR)/$*.c"
+%.o: %.c
+	$(CC) $(CFLAGS) -o "$*.o" -c "$*.c"
 
-%.$(EXTENSION): $(SOURCES_DIR)/%.o
-	$(CC) $(LDFLAGS) -o "$*.$(EXTENSION)" "$(SOURCES_DIR)/$*.o"  $(LIBS)
+%.$(EXTENSION): %.o
+	$(CC) $(LDFLAGS) -o "$*.$(EXTENSION)" "$*.o"  $(LIBS)
 	chmod a-x "$*.$(EXTENSION)"
 
 #------------------------------------------------------------------------------#
 clean:
-	-rm -f -- $(SOURCES_DIR)/$(SOURCES:.c=.o)
+	-rm -f -- $(SOURCES:.c=.o)
 	-rm -f -- $(SOURCES:.c=.$(EXTENSION))
 
 #------------------------------------------------------------------------------#
@@ -109,5 +74,3 @@ showsetup:
 	@echo "LIBRARY_LICENSE     : $(LIBRARY_LICENSE)"
 	@echo "LIBRARY_VERSION     : $(LIBRARY_VERSION)"
 	@echo "SOURCES             : $(SOURCES)"
-	@echo "EXTRA_DIST          : $(EXTRA_DIST)"
-	@echo "HELPPATCHES         : $(HELPPATCHES)"
