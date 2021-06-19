@@ -9,6 +9,7 @@ LIBRARY_LICENSE = Standard Improved BSD License
 LIBRARY_VERSION = 0.1
 SOURCES = cz~.c
 META_FILE = $(LIBRARY_NAME)-meta.pd
+LIBS =
 
 #------------------------------------------------------------------------------#
 UNAME := $(shell uname -s)
@@ -26,7 +27,7 @@ ifeq ($(UNAME),Linux)
   CFLAGS += -O6 -funroll-loops -fomit-frame-pointer
   LDFLAGS = -rdynamic -shared -fPIC -Wl,-rpath,"\$$ORIGIN",--enable-new-dtags
   LIBS_linux =
-  LIBS = -lc $(LIBS_linux)
+  LIBS += -lc $(LIBS_linux)
 endif
 
 #------------------------------------------------------------------------------#
