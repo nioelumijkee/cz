@@ -1,18 +1,18 @@
-#N canvas 277 157 897 492 12;
+#N canvas 404 88 897 377 12;
 #X obj 17 117 nbx 5 14 -1e+37 1e+37 0 1 empty empty m 58 8 0 10 -262144
--1 -1 70.88 256;
+-1 -1 45.88 256;
 #X obj 17 133 mtof;
 #X obj 17 154 nbx 5 14 -1e+37 1e+37 0 0 empty empty freq 58 8 0 10
--262144 -1 -1 490.472 256;
+-262144 -1 -1 115.736 256;
 #X msg 17 170 \$1 25;
 #X obj 17 191 line~;
-#X obj 343 151 nbx 5 14 -1e+37 1e+37 0 1 empty empty level 58 8 0 10
--262144 -1 -1 4 256;
+#X obj 343 151 nbx 5 14 0 1e+37 0 1 empty empty level 58 8 0 10 -262144
+-1 -1 0 256;
 #X obj 343 167 * 0.01;
 #X obj 318 188 *~ 0;
 #X obj 318 216 dac~;
 #X obj 464 112 vradio 15 1 1 8 empty empty empty 0 -8 0 10 -262144
--1 -1 0;
+-1 -1 7;
 #X text 478 111 _saw;
 #X text 478 126 _square;
 #X text 478 141 _pulse;
@@ -22,9 +22,8 @@
 #X text 478 201 _res-triangle;
 #X text 478 216 _res-trapezoid;
 #X msg 464 236 type1 \$1;
-#X obj 464 260 s \$0-to;
 #X obj 614 112 vradio 15 1 1 8 empty empty empty 0 -8 0 10 -262144
--1 -1 1;
+-1 -1 0;
 #X text 628 111 _saw;
 #X text 628 126 _square;
 #X text 628 141 _pulse;
@@ -33,62 +32,180 @@
 #X text 628 186 _res-saw;
 #X text 628 201 _res-triangle;
 #X text 628 216 _res-trapezoid;
-#X obj 614 260 s \$0-to;
 #X msg 614 236 type2 \$1;
 #X msg 120 169 \$1 25;
 #X obj 120 190 line~;
-#X obj 120 132 nbx 5 14 -1e+37 1e+37 0 1 empty empty wave 58 8 0 10
--262144 -1 -1 37 256;
+#X obj 120 132 nbx 5 14 0 100 0 1 empty empty wave 58 8 0 10 -262144
+-1 -1 60 256;
 #X obj 120 148 * 0.01;
-#X obj 16 215 s~ \$0-freq;
 #X obj 789 218 cz~;
-#X obj 789 242 s~ \$0-gen;
-#X obj 800 166 r \$0-to;
-#X obj 788 144 r~ \$0-freq;
-#X obj 806 189 r~ \$0-w;
-#X obj 120 215 s~ \$0-w;
-#X obj 317 126 r~ \$0-gen;
 #X obj 204 161 tgl 15 1 empty empty hipass 17 7 0 10 -262144 -1 -1
 1 1;
 #X msg 204 181 hp \$1;
-#X obj 204 205 s \$0-to;
 #X text 255 6 Emulates the oscillators from Casio CZ series.;
 #N canvas 0 50 450 250 (subpatch) 0;
 #X array \$0-scop 128 float 0;
 #X coords 0 1 127 -1 128 100 1 0 0;
-#X restore 65 357 graph;
-#X obj 218 432 tabwrite~ \$0-scop;
-#X obj 217 362 r~ \$0-gen;
-#X obj 230 387 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+#X restore 104 269 graph;
+#X obj 257 344 tabwrite~ \$0-scop;
+#X obj 269 299 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
-#X obj 230 404 metro 50;
+#X obj 269 316 metro 50;
 #X text 241 33 Reference: https://github.com/MikeMorenoDSP/pd-mkmr
 ;
 #X text 413 59 Author: Mike Moser Booth;
+#X obj 464 308 nbx 5 14 1 16 0 1 empty empty os 58 8 0 10 -262144 -1
+-1 16 256;
+#X msg 464 324 os \$1;
+#X obj 789 242 s~ gen;
+#X obj 256 274 r~ gen;
+#X obj 317 126 r~ gen;
+#X obj 16 215 s~ freq;
+#X obj 120 215 s~ w;
+#X obj 204 205 s to;
+#X obj 464 260 s to;
+#X obj 614 260 s to;
+#X obj 788 144 r~ freq;
+#X obj 800 166 r to;
+#X obj 806 189 r~ w;
+#X obj 464 345 s to;
+#X text 522 333 oversampling factor.;
+#N canvas 151 233 696 429 detune 0;
+#X obj 17 77 nbx 5 14 -1e+37 1e+37 0 1 empty empty m 58 8 0 10 -262144
+-1 -1 51.17 256;
+#X obj 17 112 mtof;
+#X msg 17 134 \$1 25;
+#X obj 17 155 line~;
+#X obj 295 285 nbx 5 14 0 1e+37 0 1 empty empty level 58 8 0 10 -262144
+-1 -1 11 256;
+#X obj 295 301 * 0.01;
+#X obj 270 322 *~ 0;
+#X obj 270 350 dac~;
+#X obj 372 50 vradio 15 1 1 8 empty empty empty 0 -8 0 10 -262144 -1
+-1 3;
+#X text 386 49 _saw;
+#X text 386 64 _square;
+#X text 386 79 _pulse;
+#X text 386 94 _sinepulse;
+#X text 386 109 _halfpulse;
+#X text 386 124 _res-saw;
+#X text 386 139 _res-triangle;
+#X text 386 154 _res-trapezoid;
+#X msg 372 174 type1 \$1;
+#X obj 522 50 vradio 15 1 1 8 empty empty empty 0 -8 0 10 -262144 -1
+-1 3;
+#X text 536 49 _saw;
+#X text 536 64 _square;
+#X text 536 79 _pulse;
+#X text 536 94 _sinepulse;
+#X text 536 109 _halfpulse;
+#X text 536 124 _res-saw;
+#X text 536 139 _res-triangle;
+#X text 536 154 _res-trapezoid;
+#X msg 522 174 type2 \$1;
+#X msg 214 121 \$1 25;
+#X obj 214 142 line~;
+#X obj 214 84 nbx 5 14 0 100 0 1 empty empty wave 58 8 0 10 -262144
+-1 -1 92 256;
+#X obj 214 100 * 0.01;
+#X obj 53 312 cz~;
+#X obj 298 113 tgl 15 1 empty empty hipass 17 7 0 10 -262144 -1 -1
+1 1;
+#X msg 298 133 hp \$1;
+#X obj 414 278 nbx 5 14 1 16 0 1 empty empty os 58 8 0 10 -262144 -1
+-1 16 256;
+#X msg 414 294 os \$1;
+#X text 472 303 oversampling factor.;
+#X obj 372 198 s to2;
+#X obj 522 198 s to2;
+#X obj 52 238 r~ freq2;
+#X obj 64 260 r to2;
+#X obj 70 283 r~ w2;
+#X obj 298 157 s to2;
+#X obj 214 167 s~ w2;
+#X obj 16 179 s~ freq2;
+#X obj 271 212 r~ gen2;
+#X obj 123 312 cz~;
+#X obj 134 260 r to2;
+#X obj 140 283 r~ w2;
+#X obj 53 336 s~ gen2;
+#X obj 123 336 s~ gen3;
+#X obj 122 238 r~ freq3;
+#X obj 281 239 r~ gen3;
+#X obj 414 315 s to2;
+#X obj 97 112 mtof;
+#X msg 97 134 \$1 25;
+#X obj 97 155 line~;
+#X obj 96 179 s~ freq3;
+#X obj 97 36 nbx 5 14 -1e+37 1e+37 0 1 empty empty detune 58 8 0 10
+-262144 -1 -1 7.32 256;
+#X obj 97 55 t b f;
+#X obj 97 91 +;
+#X connect 0 0 1 0;
+#X connect 0 0 61 0;
+#X connect 1 0 2 0;
+#X connect 2 0 3 0;
+#X connect 3 0 45 0;
+#X connect 4 0 5 0;
+#X connect 5 0 6 1;
+#X connect 6 0 7 0;
+#X connect 6 0 7 1;
+#X connect 8 0 17 0;
+#X connect 17 0 38 0;
+#X connect 18 0 27 0;
+#X connect 27 0 39 0;
+#X connect 28 0 29 0;
+#X connect 29 0 44 0;
+#X connect 30 0 31 0;
+#X connect 31 0 28 0;
+#X connect 32 0 50 0;
+#X connect 33 0 34 0;
+#X connect 34 0 43 0;
+#X connect 35 0 36 0;
+#X connect 36 0 54 0;
+#X connect 40 0 32 0;
+#X connect 41 0 32 0;
+#X connect 42 0 32 1;
+#X connect 46 0 6 0;
+#X connect 47 0 51 0;
+#X connect 48 0 47 0;
+#X connect 49 0 47 1;
+#X connect 52 0 47 0;
+#X connect 53 0 6 0;
+#X connect 55 0 56 0;
+#X connect 56 0 57 0;
+#X connect 57 0 58 0;
+#X connect 59 0 60 0;
+#X connect 60 0 61 0;
+#X connect 60 1 61 1;
+#X connect 61 0 55 0;
+#X restore 701 314 pd detune example;
 #X connect 0 0 1 0;
 #X connect 1 0 2 0;
 #X connect 2 0 3 0;
 #X connect 3 0 4 0;
-#X connect 4 0 35 0;
+#X connect 4 0 48 0;
 #X connect 5 0 6 0;
 #X connect 6 0 7 1;
 #X connect 7 0 8 0;
 #X connect 7 0 8 1;
 #X connect 9 0 18 0;
-#X connect 18 0 19 0;
-#X connect 20 0 30 0;
-#X connect 30 0 29 0;
+#X connect 18 0 51 0;
+#X connect 19 0 28 0;
+#X connect 28 0 52 0;
+#X connect 29 0 30 0;
+#X connect 30 0 49 0;
 #X connect 31 0 32 0;
-#X connect 32 0 41 0;
-#X connect 33 0 34 0;
-#X connect 34 0 31 0;
-#X connect 36 0 37 0;
-#X connect 38 0 36 0;
-#X connect 39 0 36 0;
-#X connect 40 0 36 1;
-#X connect 42 0 7 0;
+#X connect 32 0 29 0;
+#X connect 33 0 45 0;
+#X connect 34 0 35 0;
+#X connect 35 0 50 0;
+#X connect 39 0 40 0;
+#X connect 40 0 38 0;
 #X connect 43 0 44 0;
-#X connect 44 0 45 0;
-#X connect 49 0 48 0;
-#X connect 50 0 51 0;
-#X connect 51 0 48 0;
+#X connect 44 0 56 0;
+#X connect 46 0 38 0;
+#X connect 47 0 7 0;
+#X connect 53 0 33 0;
+#X connect 54 0 33 0;
+#X connect 55 0 33 1;
