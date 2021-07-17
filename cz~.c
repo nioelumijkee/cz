@@ -58,12 +58,10 @@ t_int *cz_perform(t_int *w)
   t_float ph;
   t_float phi;
   t_float wave;
-  t_float wv;
   t_float a,b,c;
   int type;
   int type1 = x->type1;
   int type2 = x->type2;
-  t_float wv_01;
   t_float wv_050;
   t_float a_050;
   t_float b_050;
@@ -73,44 +71,31 @@ t_int *cz_perform(t_int *w)
 
   while (n--)
     {
-      // inc
+      // phase wrap
       ph = *(in_phase++);
-      if (ph > 1.0)    
-        {
-          i = ph;
-          ph -= i;
-        }
-      else if (ph < 0.0)
-        { 
-          i = ph;
-          ph = i - ph;
-        }
+      if      (ph > 1.0) {   i = ph;   ph -= i;      }
+      else if (ph < 0.0) {   i = ph;   ph = i - ph;  }
 
-      // phasor
+      // phase switch
       ph += ph;
       if (ph < 1.0) {  phi = ph;       type = type1;  }
       else          {  phi = ph - 1.0; type = type2;  }
       
       // wave
       wave = *(in_wave++);
-      wv = wave;
-      if      (wv < 0.0)   wv = 0.0;
-      else if (wv > 0.99)  wv = 0.99;
-      wv_01 = wv / (1.0 - wv);
-      wv_050 = 0.5 - (wv * 0.5);
-      a_050 = 0.5 - wv_050;
-      b_050 = a_050 / (1.0 - wv_050);
-      if (wave < 0.0) wv_res = 1.0;
-      else            wv_res = (wave * 31.0) + 1.0;
 
+      // shaper
       switch(type)
         {
         case T_SQUARE:
+          if      (wave < 0.0)   wave = 0.0;
+          else if (wave > 0.99)  wave = 0.99;
+          wave = wave / (1.0 - wave);
           a = phi + phi + 1.0;
-          i = a; // wrap
+          i = a;
           c = a = a - i;
-          b = (1.0 - a) * wv_01;
-          if (a > b) a = b; // min
+          b = (1.0 - a) * wave;
+          if (a > b) a = b;
           c = c - a;
           if (phi >= 0.5) a = 1.0;
           else            a = 0.0;
@@ -121,8 +106,11 @@ t_int *cz_perform(t_int *w)
               
           
         case T_PULSE:
-          a = (1.0 - phi) * wv_01;
-          if (phi > a) c = a; // min
+          if      (wave < 0.0)   wave = 0.0;
+          else if (wave > 0.95)  wave = 0.95;
+          wave = wave / (1.0 - wave);
+          a = (1.0 - phi) * wave;
+          if (phi > a) c = a;
           else         c = phi;
           c = phi - c;
           AF_COST(c, i, f);
@@ -130,9 +118,13 @@ t_int *cz_perform(t_int *w)
           
           
         case T_SINEPULSE:
+          if      (wave < 0.0)   wave = 0.0;
+          else if (wave > 0.95)  wave = 0.95;
+          wv_050 = 0.5 - (wave * 0.5);
+          a_050 = 0.5 - wv_050;
           b = (a_050 / wv_050) * phi;
           c = (1.0 - phi) * (a_050 / (1.0 - wv_050));
-          if (b > c) b = c; // min
+          if (b > c) b = c;
           c = phi + b;
           c = c+c;
           if (c > 1.0) c -= 1.0;
@@ -141,6 +133,9 @@ t_int *cz_perform(t_int *w)
           
           
         case T_HALFPULSE:
+          if      (wave < 0.0)   wave = 0.0;
+          else if (wave > 0.99)  wave = 0.99;
+          wv_050 = 0.5 - (wave * 0.5);
           a = (phi - 0.5) / wv_050;
           a = (a * 0.5) + 0.5;
           if (phi < 0.5) b = 1.0;
@@ -153,8 +148,10 @@ t_int *cz_perform(t_int *w)
           
           
         case T_RES_SAW:
+          if (wave < 0.0) wv_res = 1.0;
+          else            wv_res = (wave * 31.0) + 1.0;
           a = (phi * wv_res) + 1.0;
-          i = a; // wrap
+          i = a;
           a = a - i;
           AF_COST(a, i, a);
           a = (a * -0.5) + 0.5;
@@ -166,8 +163,10 @@ t_int *cz_perform(t_int *w)
           
           
         case T_RES_TRIANGLE:
+          if (wave < 0.0) wv_res = 1.0;
+          else            wv_res = (wave * 31.0) + 1.0;
           a = (phi * wv_res) + 1.0;
-          i = a; // wrap
+          i = a;
           a = a - i;
           AF_COST(a, i, a);
           a = (a * -0.5) + 0.5;
@@ -183,8 +182,10 @@ t_int *cz_perform(t_int *w)
           
           
         case T_RES_TRAPEZOID:
+          if (wave < 0.0) wv_res = 1.0;
+          else            wv_res = (wave * 31.0) + 1.0;
           a = (phi * wv_res) + 1.0;
-          i = a; // wrap
+          i = a;
           a = a - i;
           AF_COST(a, i, a);
           a = (a * -0.5) + 0.5;
@@ -199,6 +200,11 @@ t_int *cz_perform(t_int *w)
           
           
         default: // T_SAW
+          if      (wave < 0.0)   wave = 0.0;
+          else if (wave > .999)  wave = 0.999;
+          wv_050 = 0.5 - (wave * 0.5);
+          a_050 = 0.5 - wv_050;
+          b_050 = a_050 / (1.0 - wv_050);
           b = (1.0 - phi) * b_050;
           c = phi * (a_050 / wv_050);
           if (c > b) c = b;
@@ -207,7 +213,6 @@ t_int *cz_perform(t_int *w)
           break;
         }
       
-      // out
       *(out++) = f;
     }
   
@@ -239,12 +244,15 @@ void cz_dsp(t_cz *x, t_signal **sp)
 }
 
 //----------------------------------------------------------------------------//
-static void *cz_new(void)
+static void *cz_new(t_symbol *s, int ac, t_atom *av)
 {
   t_cz *x = (t_cz *)pd_new(cz_class);
+  x->type1 = atom_getfloatarg(0,ac,av);
+  x->type2 = atom_getfloatarg(1,ac,av);
   inlet_new(&x->x_obj, &x->x_obj.ob_pd, &s_signal, &s_signal);
   outlet_new(&x->x_obj, &s_signal);
   return (void *)x;
+  if (s) {};
 }
 
 //----------------------------------------------------------------------------//
@@ -260,7 +268,8 @@ void cz_calc_sint()
 //----------------------------------------------------------------------------//
 void cz_tilde_setup(void)
 {
-  cz_class = class_new(gensym("cz~"), (t_newmethod)cz_new, 0, sizeof(t_cz),0,0,0);
+  cz_class = class_new(gensym("cz~"), (t_newmethod)cz_new, 0,
+                       sizeof(t_cz),0,A_GIMME,0);
   class_addmethod(cz_class, nullfn, gensym("signal"), 0);
   class_addmethod(cz_class, (t_method)cz_dsp, gensym("dsp"), 0);
   class_addmethod(cz_class, (t_method)cz_type1, gensym("type1"), A_DEFFLOAT, 0);
