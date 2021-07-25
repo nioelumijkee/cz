@@ -40,8 +40,8 @@ static t_class *cz_class;
 typedef struct _cz
 {
   t_object x_obj;
-  int type1; /* types 1 */
-  int type2; /* types 2 */
+  int type1;
+  int type2;
 } t_cz;
 
 t_float sint[SSIZE];
